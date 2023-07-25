@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  userms:
+    depends_on:
+      - "mysqldb"
+    build: .
+    image: npalmatech/userms
+    container_name: userms_container
+    ports:
+      - 9000:9000
+    networks:
+      - userservice_network
+  mysqldb:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      - MYSQL_ROOT_PASSWORD=P@$$w0rd 
+    networks:
+      - userservice_network
+networks:
+  userservice_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+    
